@@ -237,13 +237,6 @@ mod_info(RpsiScan_res_file="../test_out/user_defined/user_defined_ud_psi_predict
          output_dir="../test_out/mod_info",
          output_name="mod_info")
 
-mod_info(RpsiScan_res_file="../test_out/user_defined/user_defined_ud_psi_prediction.bed",
-         RpsiAnnotator_res_file="../test_out/ud_annotation/ud_annotation_anno.bed",
-         psiU.SingleSites.bed="../test_data/ground_truth/hg38.psiU.SingleSites.bed",
-         pred_method="user-defined",
-         output_dir="../test_out/mod_info",
-         output_name="mod_info")
-
 mod_info(RpsiScan_res_file="../test_out/roc/roc_roc_psi_prediction.bed",
          RpsiAnnotator_res_file="../test_out/roc_annotation/roc_annotation_anno.bed",
          psiU.SingleSites.bed="../test_data/ground_truth/hg38.psiU.SingleSites.bed",
