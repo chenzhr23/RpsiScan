@@ -22,12 +22,12 @@ RpsiACAscan <- function(acaboxseq,
   }
   output_dir_output_name<-paste(output_dir,"/",output_name,sep="")
 
-  paste(output_dir_output_name,"_modinfo.txt",sep="")
+  
 
   cmd <- paste(psiACAscan_path,
                "-f", acaboxseq,
                "-m", modifiedfile,
-               ">", output_dir_output_name,
+               ">", paste(output_dir_output_name,".txt",sep=""),
                sep=" ")
 
   print(cmd)
