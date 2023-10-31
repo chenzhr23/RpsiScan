@@ -88,15 +88,19 @@ prefilt_out <- prefilt(RpsiScan_res=RpsiScan_example,
                         output_name="test_prefilt")
 
 #udfilt function will retain psiScan information with desired identification metrics greater than thresholds (treatPreRpmFold, treatAfterRpmFold, treatStopRatio, preRpmFoldRatio, afterRpmFoldRatio, stopRatioFC).
-udfilt_out<-udfilt(RpsiScan_res_file="../test_out/RpsiScan_out/test_prefilt.txt",
-                    treatPreRpmFold_thres=1.5,
-                    treatAfterRpmFold_thres=1.5,
-                    treatStopRatio_thres=0.04,
-                    preRpmFoldRatio_thres=1.5,
-                    afterRpmFoldRatio_thres=1.5,
-                    stopRatioFC_thres=1.5,
-                    output_dir="../test_out/RpsiScan_out",
-                    output_name="test_udfilt")
+udfilt_out <- udfilt(RpsiScan_res_file="../test_out/RpsiScan_out/test_prefilt.txt",
+                   tretRtsRatio_thres=0.02,
+                   rtsRatioFold_thres=1.5,
+                   tretBefRatio_thres=0.02,
+                   befRatioFold_thres=1.5,
+                   tretAftRatio_thres=0.02,
+                   aftRatioFold_thres=1.5,
+                   tretMutRatio_thres=0.02,
+                   mutRatioFold_thres=1.5,
+                   tretDelRatio_thres=0.02,
+                   delRatioFold_thres=1.5,
+                   output_dir="../test_out/RpsiScan_out",
+                   output_name="test_udfilt")
 
 #ground_truth function prepare ground truth data set (known rRNA positive/negative pseudouridylation sites) for pseudouridylation identification.
 ground_truth(RpsiScan_res_file="../test_out/RpsiScan_out/test_udfilt.txt",
