@@ -69,20 +69,17 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
                         "pred_class",
                         "real_class")
   tab <- table(Predicted = ROC_data$pred_class,Actual = ROC_data$real_class)
-  tab
+  print(tab)
 
-  ROC_data_sel<-ROC_data %>% select(treatPreRpmFold,treatAfterRpmFold,treatStopMeanFold,treatStopRatio,preRpmFoldRatio, afterRpmFoldRatio, stopRatioFC,treatStopMeanFoldRatio,real_class)
+  ROC_data_sel<-ROC_data %>% select(tretRtsRatio,rtsRatioFold,tretBefRatio,befRatioFold,tretAftRatio,aftRatioFold,tretMutRatio,mutRatioFold,tretDelRatio,delRatioFold,real_class)
   print("total summary (rRNA psi and rRNA non-psi)")
   summary(ROC_data_sel)
   print("psi summary (all real rRNA psi)")
   real_rRNA_psi<-ROC_data_sel %>% filter(real_class=="1")
   summary(real_rRNA_psi)
-  pdf(paste(outFile_prefix,"_real_rRNA_psi_datadensity.pdf",sep=""))
-  datadensity(real_rRNA_psi, lwd = 1,group=cut2(real_rRNA_psi$treatStopRatio,g=2))#cut tretRtsRatio into 2 color group
-  dev.off()
 
   #rRNA-psi-non-psi visualization
-  ROC_data_melt<-melt(ROC_data[,c(11:38,41)],id.vars = "real_class")
+  ROC_data_melt<-melt(ROC_data_sel,id.vars = "real_class")
   ROC_data_melt$real_class<-str_replace(as.character(ROC_data_melt$real_class),"0","non-psi")
   ROC_data_melt$real_class<-str_replace(as.character(ROC_data_melt$real_class),"1","psi")
 
