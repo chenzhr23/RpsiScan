@@ -15,6 +15,7 @@ RpsiACAscan <- function(acaboxseq,
                         output_name)
 {
   psiACAscan_path <- system.file("program", "psiACAscan", package = "RpsiScan")
+  system(paste("chmod 777", psiACAscan_path, sep=" "))
 
   if (!dir.exists(output_dir)) {
     dir.create(output_dir)
