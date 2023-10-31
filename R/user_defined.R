@@ -23,7 +23,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
   outfile_prefix<-paste(output_dir,"/",output_name,sep="")
 
   # roc_plot.txt
-  ROC_data<<-as.data.frame(fread(rocfile))
+  ROC_data<-fread(rocfile)
   colnames(ROC_data)<-c("chrom",
                         "chromStart",
                         "chromEnd",
@@ -84,10 +84,10 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
   ROC_data_melt$real_class<-str_replace(as.character(ROC_data_melt$real_class),"1","psi")
 
   data_summary <- function(x) {
-     m <- mean(x)
-     ymin <- m-sd(x)
-     ymax <- m+sd(x)
-     return(c(y=m,ymin=ymin,ymax=ymax))
+    m <- mean(x)
+    ymin <- m-sd(x)
+    ymax <- m+sd(x)
+    return(c(y=m,ymin=ymin,ymax=ymax))
   }
 
   my_comparisons <- list( c("non-psi", "psi") )
@@ -228,7 +228,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
 
 
   pdf(paste(outfile_prefix,"_ten_variables_rRNA_violinplot.pdf",sep=""),width=12,height=4)
-  plot_grid(
+  print(plot_grid(
     tretRtsRatio_bp,#'A'
     rtsRatioFold_bp,#'B'
     tretBefRatio_bp,#'C'
@@ -240,7 +240,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     tretDelRatio_bp,#'I'
     delRatioFold_bp,#'J'
     align = "hv",
-    labels = c('A','B','C','D','E','F','G','H','I','J'),ncol=5,nrow=2)
+    labels = c('A','B','C','D','E','F','G','H','I','J'),ncol=5,nrow=2))
   invisible(dev.off())
 
   #calculate evaluation indicators
@@ -283,7 +283,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
   invisible(dev.off()) # Close the file
 
   #filt by best F1 score threshold
-  to_filt<<-as.data.frame(fread(filtfile,skip=1))
+  to_filt<-read.table(filtfile)
   colnames(to_filt)<-c(
     "chrom",
     "chromStart",
@@ -327,7 +327,8 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     "ctrlDelRatio",
     "delRatioFold", #*
     "extendSeq",
-    "class")
+    "pred_class")
+  to_filt$base<-str_replace_all(to_filt$base, "TRUE", "T")
   to_filt$pred_class<-str_replace(as.character(to_filt$pred_class),"0","non-psi")
   to_filt$pred_class<-str_replace(as.character(to_filt$pred_class),"1","psi")
 
