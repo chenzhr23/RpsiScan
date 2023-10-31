@@ -89,18 +89,13 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
   print(plot_confusion_matrix)
   invisible(dev.off())
 
-  # print(confusionMatrix(factor(ROC_data$pred_class,levels=c("0","1")),factor(ROC_data$real_class,levels=c("0","1"))))
-  ROC_data_sel<-ROC_data %>% select(treatPreRpmFold,treatAfterRpmFold,treatStopMeanFold,treatStopRatio,preRpmFoldRatio, afterRpmFoldRatio, stopRatioFC,treatStopMeanFoldRatio,real_class)
-  print("total summary (rRNA psi and rRNA non-psi)")
-  print(summary(ROC_data_sel))
-  print("psi summary (all real rRNA psi)")
-  real_rRNA_psi<-ROC_data_sel %>% filter(real_class=="1")
-  print(summary(real_rRNA_psi))
+  ROC_data_sel<-ROC_data %>% select(tretRtsRatio,rtsRatioFold,tretBefRatio,befRatioFold,tretAftRatio,aftRatioFold,tretMutRatio,mutRatioFold,tretDelRatio,delRatioFold,class)
+
 
   #rRNA-psi-non-psi visualization
-  ROC_data_melt<-melt(ROC_data[,c(11:38,41)],id.vars = "real_class")
-  ROC_data_melt$real_class<-str_replace(as.character(ROC_data_melt$real_class),"0","non-psi")
-  ROC_data_melt$real_class<-str_replace(as.character(ROC_data_melt$real_class),"1","psi")
+  ROC_data_melt<-melt(ROC_data_sel,id.vars = "class")
+  ROC_data_melt$class<-str_replace(as.character(ROC_data_melt$class),"0","non-psi")
+  ROC_data_melt$class<-str_replace(as.character(ROC_data_melt$class),"1","psi")
 
   data_summary <- function(x) {
     m <- mean(x)
@@ -111,115 +106,154 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
 
   my_comparisons <- list( c("non-psi", "psi") )
 
-  #treatPreRpmFold
-  treatPreRpmFold<-ROC_data_melt%>%filter(str_detect(.$variable,"^treatPreRpmFold$"))
-  treatPreRpmFold_bp <- ggplot(treatPreRpmFold, aes(x=real_class, y=log2(value), fill=real_class)) +
+  print("violin plotting...")
+  tretRtsRatio_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^tretRtsRatio$")), aes(x=class, y=log2(value), fill=class)) +
     stat_boxplot(geom = "errorbar",
                  width = 0.15) +
-    # geom_boxplot(outlier.colour = NA,width=0.2)+
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
-    labs(x="group", y = "log2(treatPreRpmFold)")
-  treatPreRpmFold_bp<-treatPreRpmFold_bp + scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    labs(x="group", y = "log2(tretRtsRatio)") +
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
-    # stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
-    stat_compare_means(method = "t.test",comparisons = my_comparisons,label.y = max(log2(treatPreRpmFold$value))+abs(quantile(log2(treatPreRpmFold$value))[1]))+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
     scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
     scale_fill_manual(values=c("#129a92","#1e95d4"))
 
-  #treatAfterRpmFold
-  treatAfterRpmFold<-ROC_data_melt%>%filter(str_detect(.$variable,"^treatAfterRpmFold$"))
-  treatAfterRpmFold_bp <- ggplot(treatAfterRpmFold, aes(x=real_class, y=log2(value), fill=real_class)) +
+  rtsRatioFold_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^rtsRatioFold$")), aes(x=class, y=log2(value), fill=class)) +
     stat_boxplot(geom = "errorbar",
                  width = 0.15) +
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
-    labs(x="group", y = "log2(treatAfterRpmFold)")
-  treatAfterRpmFold_bp<-treatAfterRpmFold_bp + scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    labs(x="group", y = "log2(rtsRatioFold)") +
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8), legend.position = "none") + font("xy.text", size = 8)+
-    # stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
-    stat_compare_means(method = "t.test",comparisons = my_comparisons,label.y = max(log2(treatAfterRpmFold$value))+abs(quantile(log2(treatAfterRpmFold$value))[1]))+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
     scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
     scale_fill_manual(values=c("#129a92","#1e95d4"))
 
-  #preRpmFoldRatio
-  preRpmFoldRatio<-ROC_data_melt%>%filter(str_detect(.$variable,"^preRpmFoldRatio$"))
-  preRpmFoldRatio_bp <- ggplot(preRpmFoldRatio, aes(x=real_class, y=log2(value), fill=real_class)) +
+  tretBefRatio_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^tretBefRatio$")), aes(x=class, y=log2(value), fill=class)) +
     stat_boxplot(geom = "errorbar",
                  width = 0.15) +
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
-    labs(x="group", y = "log2(preRpmFoldRatio)")
-  preRpmFoldRatio_bp<-preRpmFoldRatio_bp + scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
-    # theme(text=element_text(size=8), axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),legend.position = "none") + font("xy.text", size = 8)+
+    labs(x="group", y = "log2(tretBefRatio)")+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8), legend.position = "none") + font("xy.text", size = 8)+
-    # stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
-    stat_compare_means(method = "t.test",comparisons = my_comparisons,label.y = max(log2(preRpmFoldRatio$value))+abs(quantile(log2(preRpmFoldRatio$value))[1]))+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
     scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
     scale_fill_manual(values=c("#129a92","#1e95d4"))
 
-  #afterRpmFoldRatio
-  afterRpmFoldRatio<-ROC_data_melt%>%filter(str_detect(.$variable,"^afterRpmFoldRatio$"))
-  afterRpmFoldRatio_bp <- ggplot(afterRpmFoldRatio, aes(x=real_class, y=log2(value), fill=real_class)) +
+  befRatioFold_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^befRatioFold$")), aes(x=class, y=log2(value), fill=class)) +
     stat_boxplot(geom = "errorbar",
                  width = 0.15) +
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
-    labs(x="group", y = "log2(afterRpmFoldRatio)")
-  afterRpmFoldRatio_bp<-afterRpmFoldRatio_bp + scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    labs(x="group", y = "log2(befRatioFold)")+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
-    # stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
-    stat_compare_means(method = "t.test",comparisons = my_comparisons,label.y = max(log2(afterRpmFoldRatio$value))+abs(quantile(log2(afterRpmFoldRatio$value))[1]))+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
     scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
     scale_fill_manual(values=c("#129a92","#1e95d4"))
 
-  #treatStopRatio
-  treatStopRatio<-ROC_data_melt%>%filter(str_detect(.$variable,"^treatStopRatio$"))
-  treatStopRatio<-treatStopRatio[treatStopRatio$value!=0,]
-  treatStopRatio_bp <- ggplot(treatStopRatio, aes(x=real_class, y=log2(value), fill=real_class)) +
+  tretAftRatio_melt<-ROC_data_melt%>%filter(str_detect(.$variable,"^tretAftRatio$"))
+  tretAftRatio_melt<-tretAftRatio_melt[tretAftRatio_melt$value!=0,]
+  tretAftRatio_bp <- ggplot(tretAftRatio_melt, aes(x=class, y=log2(value), fill=class)) +
     stat_boxplot(geom = "errorbar",
                  width = 0.15) +
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
-    labs(x="group", y = "log2(treatStopRatio)")
-  treatStopRatio_bp<-treatStopRatio_bp + scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    labs(x="group", y = "log2(tretAftRatio)") +
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
-    # stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
-    stat_compare_means(method = "t.test",comparisons = my_comparisons,label.y = max(log2(treatStopRatio$value))+abs(quantile(log2(treatStopRatio$value))[1]))+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
     scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
     scale_fill_manual(values=c("#129a92","#1e95d4"))
 
-  stopRatioFC<-ROC_data_melt%>%filter(str_detect(.$variable,"^stopRatioFC$"))
-  stopRatioFC_bp <- ggplot(stopRatioFC, aes(x=real_class, y=log2(value), fill=real_class)) +
+  aftRatioFold_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^aftRatioFold$")), aes(x=class, y=log2(value), fill=class)) +
     stat_boxplot(geom = "errorbar",
                  width = 0.15) +
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
-    labs(x="group", y = "log2(stopRatioFC)")
-  stopRatioFC_bp<-stopRatioFC_bp + scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    labs(x="group", y = "log2(aftRatioFold)") +
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
-    # stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
-    stat_compare_means(method = "t.test",comparisons = my_comparisons,label.y = max(log2(stopRatioFC$value))+abs(quantile(log2(stopRatioFC$value))[1]))+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
+    scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
+    scale_fill_manual(values=c("#129a92","#1e95d4"))
+
+  tretMutRatio_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^tretMutRatio$")), aes(x=class, y=log2(value), fill=class)) +
+    stat_boxplot(geom = "errorbar",
+                 width = 0.15) +
+    geom_violin(trim=FALSE,alpha=0.8)+
+    stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
+    labs(x="group", y = "log2(tretMutRatio)")+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
+    scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
+    scale_fill_manual(values=c("#129a92","#1e95d4"))
+
+  mutRatioFold_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^mutRatioFold$")), aes(x=class, y=log2(value), fill=class)) +
+    stat_boxplot(geom = "errorbar",
+                 width = 0.15) +
+    geom_violin(trim=FALSE,alpha=0.8)+
+    stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
+    labs(x="group", y = "log2(mutRatioFold)")+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
+    scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
+    scale_fill_manual(values=c("#129a92","#1e95d4"))
+
+  tretDelRatio_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^tretDelRatio$")), aes(x=class, y=log2(value), fill=class)) +
+    stat_boxplot(geom = "errorbar",
+                 width = 0.15) +
+    geom_violin(trim=FALSE,alpha=0.8)+
+    stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
+    labs(x="group", y = "log2(tretDelRatio)") +
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
+    scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
+    scale_fill_manual(values=c("#129a92","#1e95d4"))
+
+  delRatioFold_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^delRatioFold$")), aes(x=class, y=log2(value), fill=class)) +
+    stat_boxplot(geom = "errorbar",
+                 width = 0.15) +
+    geom_violin(trim=FALSE,alpha=0.8)+
+    stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
+    labs(x="group", y = "log2(delRatioFold)")+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
+    theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
+    stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
     scale_y_continuous(expand = expansion(mult = c(0, 0.1)))+
     scale_fill_manual(values=c("#129a92","#1e95d4"))
 
 
-  pdf(paste(outfile_prefix,"_six_variables_rRNA_violinplot.pdf",sep=""),width=5,height=6)
-  print(plot_grid(
-    treatPreRpmFold_bp,
-    preRpmFoldRatio_bp,
-    treatAfterRpmFold_bp,
-    afterRpmFoldRatio_bp,
-    treatStopRatio_bp,
-    stopRatioFC_bp,
+  pdf(paste(outfile_prefix,"_ten_variables_rRNA_violinplot.pdf",sep=""),width=12,height=4)
+  plot_grid(
+    tretRtsRatio_bp,#'A'
+    rtsRatioFold_bp,#'B'
+    tretBefRatio_bp,#'C'
+    befRatioFold_bp,#'D'
+    tretAftRatio_bp,#'E'
+    aftRatioFold_bp,#'F'
+    tretMutRatio_bp,#'G'
+    mutRatioFold_bp,#'H'
+    tretDelRatio_bp,#'I'
+    delRatioFold_bp,#'J'
     align = "hv",
-    labels = c('A','B','C','D','E','F'),ncol=2,nrow=3))
+    labels = c('A','B','C','D','E','F','G','H','I','J'),ncol=5,nrow=2)
   invisible(dev.off())
 
   #calculate evaluation indicators
