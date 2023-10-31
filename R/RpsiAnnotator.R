@@ -510,6 +510,7 @@ RpsiAnnotator <- function(input_bedfile,
   }
 
   psiAnnotator_path <- system.file("program", "psiAnnotator", package = "RpsiScan")
+  system(paste("chmod 777", psiAnnotator_path, sep=" "))
   output_dir_output_name<-paste(output_dir,"/",output_name,sep="")
 
   input_bedfile6<-paste(output_dir,"/",basename(sub(".bed",".bed6",input_bedfile)),sep="")
