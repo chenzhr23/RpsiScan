@@ -94,7 +94,7 @@ mod_info <- function(RpsiScan_res_file,
                   "intersect",
                   "-a", anno_info.bed,
                   "-b", psiU.SingleSites.bed,
-                  "-wb|awk \'FS=OFS=\"\t\" {print \"\"$1\"_\"$2\"_\"$3\"_\"$6\"\",$44,$39}\' >",#user-defined prediction result
+                  "-wb|awk \'FS=OFS=\"\t\" {print \"\"$1\"_\"$2\"_\"$3\"_\"$6\"\",$47,$42}\' >",#user-defined prediction result
                   known.target,
                   sep=" ")
   }else if(pred_method=="svm"){
@@ -134,7 +134,7 @@ mod_info <- function(RpsiScan_res_file,
                   "intersect",
                   "-a", anno_info.bed,
                   "-b", psiU.SingleSites.bed,
-                  "-wb|awk \'FS=OFS=\"\t\" {print \"\"$1\"_\"$2\"_\"$3\"_\"$6\"\",\"unknown\",$39}\' >",#user-defined prediction result
+                  "-wb|awk \'FS=OFS=\"\t\" {print \"\"$1\"_\"$2\"_\"$3\"_\"$6\"\",\"unknown\",$42}\' >",#user-defined prediction result
                   unknown.target,
                   sep=" ")
   }else if(pred_method=="svm"){
