@@ -100,7 +100,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(tretRtsRatio)") +
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -113,7 +113,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(rtsRatioFold)") +
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8), legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -126,7 +126,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(tretBefRatio)")+
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8), legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -139,7 +139,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(befRatioFold)")+
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -154,7 +154,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(tretAftRatio)") +
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -167,7 +167,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(aftRatioFold)") +
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -180,7 +180,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(tretMutRatio)")+
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -193,7 +193,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(mutRatioFold)")+
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -206,7 +206,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(tretDelRatio)") +
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
@@ -219,7 +219,7 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
     geom_violin(trim=FALSE,alpha=0.8)+
     stat_summary(fun.data=data_summary,geom="crossbar", width=0.2,color="black")+
     labs(x="group", y = "log2(delRatioFold)")+
-    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_real_classic()+
+    scale_fill_manual(values=c(brewer.pal(9,"Set1")[2],brewer.pal(9,"Set1")[1])) + theme_classic()+
     theme(text=element_text(size=8),legend.position = "none") + font("xy.text", size = 8)+
     stat_compare_means(method = "t.test",comparisons = my_comparisons,label = "p.signif")+
     scale_y_continuous(breaks = scales::pretty_breaks(n = 5))+
