@@ -71,7 +71,6 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
   tab <- table(Predicted = ROC_data$pred_class,Actual = ROC_data$real_class)
   tab
 
-  confusionMatrix(factor(ROC_data$pred_class,levels=c("0","1")),factor(ROC_data$real_class,levels=c("0","1")))
   ROC_data_sel<-ROC_data %>% select(treatPreRpmFold,treatAfterRpmFold,treatStopMeanFold,treatStopRatio,preRpmFoldRatio, afterRpmFoldRatio, stopRatioFC,treatStopMeanFoldRatio,real_class)
   print("total summary (rRNA psi and rRNA non-psi)")
   summary(ROC_data_sel)
