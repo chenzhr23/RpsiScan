@@ -1,0 +1,14 @@
+Package: RpsiScan
+Type: Package
+Title: Perform pseudouridylation identification from high-throughput reverse transcription stop sequencing data
+Version: 0.1.0
+Author: Zhirong Chen
+Maintainer: The package maintainer <chenzhr23@mail2.sysu.edu.cn>
+Description: Pseudouridylation identification using command line tool--'psiScan'.
+  psiScan accept CMC/Input bam file to perform reverse transcriptopn stop arithmetic e.g treatPreRpmFold,preRpmFoldRatio,treatAfterRpmFold,afterRpmFoldRatio,treatStopRatio,stopRatioFC.
+  psiScan R package API enhances access to psiScan as well as offers additional utilities for Pseudouridylation identification.
+License: GPL-2
+Imports: data.table, dplyr
+Encoding: UTF-8
+LazyData: true
+SystemRequirements: Preferred genomic operations engine: 'psiScan', 'bedtools'

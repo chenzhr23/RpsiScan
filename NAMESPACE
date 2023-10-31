@@ -1,0 +1,26 @@
+exportPattern("^[[:alpha:]]+")
+
+import('pROC',
+       'ggplot2',
+       'cowplot',
+       'gridExtra',
+       'reshape2',
+       'stringr',
+       'RColorBrewer',
+
+       'scales',
+
+       'e1071',
+       'openxlsx',
+       'caTools',
+       'ggpol',
+
+       'neuralnet',
+       'NeuralNetTools',
+
+       'tidyr'
+       )
+
+import('data.table', except=c(first,last,melt,between,dcast))
+import('dplyr', except=c(combine,compute))
+
