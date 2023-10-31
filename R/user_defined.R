@@ -68,43 +68,35 @@ user_defined <- function(rocfile, rRNAfile, filtfile, output_dir, output_name)
                         "extendSeq",
                         "pred_class",
                         "real_class")
-  print("real class:\n")
-  print(table(ROC_data$real_class))
-  print("prediction class:\n")
-  print(table(ROC_data$pred_class))
-
   tab <- table(Predicted = ROC_data$pred_class,Actual = ROC_data$real_class)
-  print(tab)
+  tab
 
-  #Visualize the prediction effect of the model
-  plot_confusion_matrix <- ggplot() +
-    geom_confmat(aes(x = ROC_data$real_class, y = ROC_data$pred_class),
-                 normalize = TRUE, text.perc = TRUE) +
-    labs(x = "Reference", y = "Prediction") +
-    scale_fill_gradient2(low = "darkblue", high = "#ec2f2f") +
-    theme_bw() +
-    theme(plot.margin = unit(c(6, 5, 6, 5), "cm"))
-
-  pdf(paste(outfile_prefix, '_user_defined_confusion_matrix.pdf', sep = ""))
-  print(plot_confusion_matrix)
-  invisible(dev.off())
-
-  ROC_data_sel<-ROC_data %>% select(tretRtsRatio,rtsRatioFold,tretBefRatio,befRatioFold,tretAftRatio,aftRatioFold,tretMutRatio,mutRatioFold,tretDelRatio,delRatioFold,class)
-
+  confusionMatrix(factor(ROC_data$pred_class,levels=c("0","1")),factor(ROC_data$real_class,levels=c("0","1")))
+  ROC_data_sel<-ROC_data %>% select(treatPreRpmFold,treatAfterRpmFold,treatStopMeanFold,treatStopRatio,preRpmFoldRatio, afterRpmFoldRatio, stopRatioFC,treatStopMe
+  anFoldRatio,real_class)
+  print("total summary (rRNA psi and rRNA non-psi)")
+  summary(ROC_data_sel)
+  print("psi summary (all real rRNA psi)")
+  real_rRNA_psi<-ROC_data_sel %>% filter(real_class=="1")
+  summary(real_rRNA_psi)
+  pdf(paste(outFile_prefix,"_real_rRNA_psi_datadensity.pdf",sep=""))
+  datadensity(real_rRNA_psi, lwd = 1,group=cut2(real_rRNA_psi$treatStopRatio,g=2))#cut tretRtsRatio into 2 color group
+  dev.off()
 
   #rRNA-psi-non-psi visualization
-  ROC_data_melt<-melt(ROC_data_sel,id.vars = "class")
-  ROC_data_melt$class<-str_replace(as.character(ROC_data_melt$class),"0","non-psi")
-  ROC_data_melt$class<-str_replace(as.character(ROC_data_melt$class),"1","psi")
+  ROC_data_melt<-melt(ROC_data[,c(11:38,41)],id.vars = "real_class")
+  ROC_data_melt$real_class<-str_replace(as.character(ROC_data_melt$real_class),"0","non-psi")
+  ROC_data_melt$real_class<-str_replace(as.character(ROC_data_melt$real_class),"1","psi")
 
   data_summary <- function(x) {
-    m <- mean(x)
-    ymin <- m-sd(x)
-    ymax <- m+sd(x)
-    return(c(y=m,ymin=ymin,ymax=ymax))
+     m <- mean(x)
+     ymin <- m-sd(x)
+     ymax <- m+sd(x)
+     return(c(y=m,ymin=ymin,ymax=ymax))
   }
 
   my_comparisons <- list( c("non-psi", "psi") )
+
 
   print("violin plotting...")
   tretRtsRatio_bp <- ggplot(ROC_data_melt%>%filter(str_detect(.$variable,"^tretRtsRatio$")), aes(x=class, y=log2(value), fill=class)) +
