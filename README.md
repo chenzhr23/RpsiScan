@@ -59,18 +59,23 @@ RpsiScan(genome_fa="../test_data/genome/hg38.fa",
             output_name = "RpsiScan_out")
 
 #or load the demoe data we deposit in the package
-RpsiScan_example()#when finished, view your global environment, and you will detect Data named 'RpsiScan_example' (this will load ePSI-seq_test.txt, RTS information from a ePSI-seq total RNA sample)
+RpsiScan_example()#when finished, view your global environment, and you will detect Data named 'RpsiScan_example' (this will load CIV-seq_test.txt, RTS information from a CIV-seq total RNA sample)
 ```
 
 ##### pre-filt overall reverse transcription stop information
 
-Remove sites with low RT stop read abundance to avoid false positives caused by too small RT reads number (treatStopNum > 10); only retains called sites of U base to include the enrichment sites caused by Ψ-CMC (not by G-CMC or others)
+Remove sites with low RT stop read abundance to avoid false positives caused by too small reverse transcription stop/mutation/deletion reads number; only retains called sites of U base to include the enrichment sites caused by Ψ-CMC (not by G-CMC or others)
 
 ```R
 #prefilt function will retain psiScan information with desired target chrom/target base.
 prefilt_out <- prefilt(RpsiScan_res=RpsiScan_example,
                         target_chrom="^chr[0-9|a-z|A-Z]*$",
                         target_base="T",
+                        tretRtsNum_thres=5,
+                        tretBefNum_thres=5,
+                        tretAftNum_thres=5,
+                        tretMutNum_thres=5,
+                        tretDelNum_thres=5,
                         output_dir="../test_out/RpsiScan_out",
                         output_name="test_prefilt")
 ```
@@ -84,10 +89,15 @@ RpsiScan_example()#when finished, view your global environment, and you will det
 prefilt_out <- prefilt(RpsiScan_res=RpsiScan_example,
                         target_chrom="^chr[0-9|a-z|A-Z]*$",
                         target_base="T",
+                        tretRtsNum_thres=5,
+                        tretBefNum_thres=5,
+                        tretAftNum_thres=5,
+                        tretMutNum_thres=5,
+                        tretDelNum_thres=5,
                         output_dir="../test_out/RpsiScan_out",
                         output_name="test_prefilt")
 
-#udfilt function will retain psiScan information with desired identification metrics greater than thresholds (treatPreRpmFold, treatAfterRpmFold, treatStopRatio, preRpmFoldRatio, afterRpmFoldRatio, stopRatioFC).
+#udfilt function will retain psiScan information with desired identification metrics greater than thresholds (tretRtsRatio, rtsRatioFold, tretBefRatio, befRatioFold, tretAftRatio, aftRatioFold, tretMutRatio, mutRatioFold, tretDelRatio, delRatioFold).
 udfilt_out <- udfilt(RpsiScan_res_file="../test_out/RpsiScan_out/test_prefilt.txt",
                    tretRtsRatio_thres=0.02,
                    rtsRatioFold_thres=1.5,
@@ -125,6 +135,11 @@ RpsiScan_example()#when finished, view your global environment, and you will det
 prefilt_out <- prefilt(RpsiScan_res=RpsiScan_example,
                         target_chrom="^chr[0-9|a-z|A-Z]*$",
                         target_base="T",
+                        tretRtsNum_thres=5,
+                        tretBefNum_thres=5,
+                        tretAftNum_thres=5,
+                        tretMutNum_thres=5,
+                        tretDelNum_thres=5,
                         output_dir="../test_out/RpsiScan_out",
                         output_name="test_prefilt")
 
@@ -167,6 +182,11 @@ RpsiScan_example()#when finished, view your global environment, and you will det
 prefilt_out <- prefilt(RpsiScan_res=RpsiScan_example,
                         target_chrom="^chr[0-9|a-z|A-Z]*$",
                         target_base="T",
+                        tretRtsNum_thres=5,
+                        tretBefNum_thres=5,
+                        tretAftNum_thres=5,
+                        tretMutNum_thres=5,
+                        tretDelNum_thres=5,
                         output_dir="../test_out/RpsiScan_out",
                         output_name="test_prefilt")
 
