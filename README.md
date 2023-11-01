@@ -42,7 +42,7 @@ install_github("chenzhr23/RpsiScan")
 
 #### Ψ-site identification
 
-##### calculate overall reverse transcription stop/mutation/deletion information
+##### calculate overall reverse transcription stop-mutation-deletion information
 
 RpsiScan function was used to generate overall reverse transcription stop/mutation/deletion site information with the following default options: -p 1.5 -t 5 -r 0.05 -M 1 -f 1 -m 0 -s -w 20.
 
@@ -62,7 +62,7 @@ RpsiScan(genome_fa="../test_data/genome/hg38.fa",
 RpsiScan_example()#when finished, view your global environment, and you will detect Data named 'RpsiScan_example' (this will load CIV-seq_test.txt, RTS information from a CIV-seq total RNA sample)
 ```
 
-##### pre-filt overall reverse transcription stop/mutation/deletion information
+##### pre-filt overall reverse transcription stop-mutation-deletion information
 
 Remove sites with low RT stop read abundance to avoid false positives caused by too small reverse transcription stop/mutation/deletion reads number; only retains called sites of U base to include the enrichment sites caused by Ψ-CMC (not by G-CMC or others)
 
