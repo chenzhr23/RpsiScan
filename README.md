@@ -8,8 +8,8 @@
 - [Installation](#Installation)
 - [Usage](#Usage)
   - [Ψ-site identification](#Ψ-site-identification)
-    - [calculate overall reverse transcription stop information](#calculate-overall-reverse-transcription-stop-information)
-    - [pre-filt overall reverse transcription stop information](#pre-filt-overall-reverse-transcription-stop-information)
+    - [calculate overall reverse transcription stop/mutation/deletion information](#calculate-overall-reverse-transcription-stop/mutation/deletion-information)
+    - [pre-filt overall reverse transcription stop/mutation/deletion information](#pre-filt-overall-reverse-transcription-stop/mutation/deletion-information)
     - [a) User-defined](#a-User-defined)
     - [b) SVM](#b-SVM)
     - [c) ANN](#c-ANN)
@@ -17,7 +17,7 @@
   - [Ψ-site target prediction](#Ψ-site-target-prediction)
 
 ### pre-installation
-RpsiScan R package is a R API mostly for psiScan, psiAnnotator, and psiACAscan (also include bedtools utilization for some functions). psiScan/psiAnnotator/psiACAscan are C programs and predominantly used in unix-based operating systems. Therefore, for the usability of RpsiScan, we recommend install RpsiScan R package in WSL2 (WSL2 installation guide: https://pureinfotech.com/install-windows-subsystem-linux-2-windows-10/).
+RpsiScan R package is a R API mostly for psiScan, psiAnnotator, and psiACAscan (also include bedtools utilization for some functions). psiScan/psiAnnotator/psiACAscan are C programs and predominantly used in unix-based operating systems. Therefore, for the usability of RpsiScan, we recommend install RpsiScan R package in WSL2 (WSL2 installation guide: https://pureinfotech.com/install-windows-subsystem-linux-2-windows-10/) or a unix-based system.
 
 ### test data
 Test data can be downloaded from https://mega.nz/fm/public-links/YGVghDRA.
@@ -42,14 +42,14 @@ install_github("chenzhr23/RpsiScan")
 
 #### Ψ-site identification
 
-##### calculate overall reverse transcription stop information
+##### calculate overall reverse transcription stop/mutation/deletion information
 
-RpsiScan function was used to generate overall RT site information with the following default options: -p 1.5 -t 5 -r 0.05 -M 1 -f 1 -m 0 -s -w 20. gene_bed12: bed12 file of annotation, usually downloaded form databases like UCSC, ENSEMBL, etc., or organize the file by bioinformatics tools
+RpsiScan function was used to generate overall reverse transcription stop/mutation/deletion site information with the following default options: -p 1.5 -t 5 -r 0.05 -M 1 -f 1 -m 0 -s -w 20.
 
 ```R
 #run RpsiScan and invoke psiScan C program to calculate overall reverse transcription stop information
 #RpsiScan will generate a file in output_dir/ and named as output_name.txt (for example: ../test_out/RpsiScan_out/RpsiScan_out.txt)
-#when RpsiScan function is done, the global environment will assign a variable called 'output_name' (for example: RpsiScan_out), which contains the overall reverse transcription stop information (RTS information derived from CMC-treated/CMC-input dataset)
+#when RpsiScan function is done, the global environment will assign a variable called 'output_name' (for example: RpsiScan_out), which contains the overall reverse transcription stop/mutation/deletion information (RTS information derived from CMC-treated/CMC-input dataset)
 library("RpsiScan")
 RpsiScan(genome_fa="../test_data/genome/hg38.fa",
             genome_fai="../test_data/genome/hg38.fa.fai",
@@ -62,7 +62,7 @@ RpsiScan(genome_fa="../test_data/genome/hg38.fa",
 RpsiScan_example()#when finished, view your global environment, and you will detect Data named 'RpsiScan_example' (this will load CIV-seq_test.txt, RTS information from a CIV-seq total RNA sample)
 ```
 
-##### pre-filt overall reverse transcription stop information
+##### pre-filt overall reverse transcription stop/mutation/deletion information
 
 Remove sites with low RT stop read abundance to avoid false positives caused by too small reverse transcription stop/mutation/deletion reads number; only retains called sites of U base to include the enrichment sites caused by Ψ-CMC (not by G-CMC or others)
 
