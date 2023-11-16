@@ -8,7 +8,7 @@ Description: Pseudouridylation identification using command line tool--'psiScan'
   psiScan accept CMC/Input bam file to perform reverse transcriptopn stop arithmetic e.g treatPreRpmFold,preRpmFoldRatio,treatAfterRpmFold,afterRpmFoldRatio,treatStopRatio,stopRatioFC.
   psiScan R package API enhances access to psiScan as well as offers additional utilities for Pseudouridylation identification.
 License: GPL-2
-Imports: data.table, dplyr
+Imports: data.table, dplyr, data.table, pROC, ggplot2, cowplot, gridExtra, reshape2, stringr, RColorBrewer, scales, e1071, openxlsx, caTools, ggpol, neuralnet, NeuralNetTools, tidyr
 Encoding: UTF-8
 LazyData: true
-SystemRequirements: Preferred genomic operations engine: 'psiScan', 'bedtools'
+SystemRequirements: Preferred genomic operations engine: 'psiScan', 'psiAnnotator', 'psiACAscan', 'bedtools'
