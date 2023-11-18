@@ -115,7 +115,7 @@ ground_truth <- function(RpsiScan_res_file,
                 sep=" ")
   print(cmd6)
   system(cmd6)
-  assign(paste(output_name,"roc_plot_txt_R",sep=""),fread(notpse_txt),envir = .GlobalEnv)
+  assign(paste(output_name,"roc_plot_txt_R",sep=""),fread(roc_plot_txt),envir = .GlobalEnv)
 
   print(paste("ground_truth result in",output_dir,sep=" "))
 }
